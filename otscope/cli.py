@@ -39,6 +39,9 @@ def _emit(report: Any, fmt: str, out: Optional[str]) -> None:
     else:
         text = report_mod.to_console(report)
     if out:
+        parent = os.path.dirname(os.path.abspath(out))
+        if parent:
+            os.makedirs(parent, exist_ok=True)
         with open(out, "w", encoding="utf-8") as fh:
             fh.write(text + "\n")
         print(f"written: {out}", file=sys.stderr)

@@ -28,6 +28,23 @@ def test_pcap_write_read_roundtrip(tmp_path):
     assert got[0][3] == frame
 
 
+def test_writer_creates_a_missing_output_directory(tmp_path):
+    """`--out reports/x.html` must not fail because reports/ does not exist yet."""
+    nested = tmp_path / "reports" / "deep" / "capture.pcap"
+    assert not nested.parent.exists()
+    with PcapWriter(str(nested)) as w:
+        w.write(b"\x00" * 14, ts=1700000000.0)
+    assert nested.exists()
+
+
+def test_cli_creates_a_missing_report_directory(tmp_path):
+    from otscope.cli import main
+
+    out = tmp_path / "reports" / "r.json"
+    assert main(["demo", "--pcap", str(tmp_path / "d.pcap"), "--format", "json", "--out", str(out)]) == 0
+    assert json.loads(out.read_text())["summary"]["findings"] > 0
+
+
 def test_capture_rejects_a_non_pcap_file(tmp_path):
     path = tmp_path / "not-a-capture.pcap"
     path.write_bytes(b"this is definitely not a pcap file, not even close")

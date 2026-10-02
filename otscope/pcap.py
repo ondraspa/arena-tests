@@ -6,6 +6,7 @@ on a locked-down OT jump host with nothing but Python 3.
 
 from __future__ import annotations
 
+import os
 import struct
 import time
 from typing import Iterator, List, Optional, Tuple
@@ -162,6 +163,9 @@ class PcapWriter:
     """Minimal classic-pcap writer (used by capture-to-disk and test fixtures)."""
 
     def __init__(self, path: str, linktype: int = DLT_EN10MB, snaplen: int = 65535) -> None:
+        parent = os.path.dirname(os.path.abspath(path))
+        if parent:
+            os.makedirs(parent, exist_ok=True)
         self.fh = open(path, "wb")
         self.fh.write(struct.pack("<IHHiIII", PCAP_MAGIC_US, 2, 4, 0, 0, snaplen, linktype))
 
