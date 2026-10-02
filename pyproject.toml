@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "otscope"
+version = "0.1.0"
+description = "Passive-first network health, industrial-protocol fault and vulnerability analyser for small ERP + OT/ICS networks"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "otscope" }]
+dependencies = []
+
+[project.optional-dependencies]
+web = ["flask>=2.3"]
+dev = ["pytest>=7.0", "flask>=2.3"]
+
+[project.scripts]
+otscope = "otscope.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["otscope*"]
+
+[tool.setuptools.package-data]
+otscope = ["vuln/data/*.json", "data/*.txt", "web/templates/*.html", "web/static/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]

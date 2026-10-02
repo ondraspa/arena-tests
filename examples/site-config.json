@@ -1,0 +1,93 @@
+{
+  "name": "example-plant",
+  "link_speed_mbps": 100.0,
+  "segment_prefix": 24,
+  "window_seconds": 60,
+  "engineering_stations": [
+    "10.20.1.10",
+    "10.20.1.11"
+  ],
+  "erp_hosts": [
+    "10.10.0.21",
+    "10.10.0.22"
+  ],
+  "known_plcs": [
+    "10.20.2.10",
+    "10.20.2.11",
+    "10.20.3.20"
+  ],
+  "fragile_devices": [
+    "10.20.2.10"
+  ],
+  "subnets": [
+    {
+      "cidr": "10.10.0.0/24",
+      "label": "ERP servers",
+      "purdue": "4",
+      "role": "erp",
+      "allow_protocols": [
+        "http",
+        "https",
+        "service"
+      ]
+    },
+    {
+      "cidr": "10.20.1.0/24",
+      "label": "Engineering / HMI",
+      "purdue": "3",
+      "role": "ot",
+      "allow_protocols": [
+        "s7comm",
+        "modbus",
+        "enip",
+        "lldp",
+        "stp",
+        "http"
+      ],
+      "trusted_engineers": [
+        "10.20.1.10",
+        "10.20.1.11"
+      ]
+    },
+    {
+      "cidr": "10.20.2.0/24",
+      "label": "Siemens line 1 (S7-300/1500)",
+      "purdue": "2",
+      "role": "ot",
+      "allow_protocols": [
+        "s7comm",
+        "cotp",
+        "lldp",
+        "mrp",
+        "profinet-dcp"
+      ]
+    },
+    {
+      "cidr": "10.20.3.0/24",
+      "label": "Rockwell line 2 (CompactLogix)",
+      "purdue": "2",
+      "role": "ot",
+      "allow_protocols": [
+        "enip",
+        "cotp",
+        "lldp"
+      ]
+    },
+    {
+      "cidr": "10.20.4.0/24",
+      "label": "Schneider line 3 (Modicon)",
+      "purdue": "2",
+      "role": "ot",
+      "allow_protocols": [
+        "modbus",
+        "lldp"
+      ]
+    }
+  ],
+  "thresholds": {
+    "retrans_warn": 0.02,
+    "retrans_crit": 0.1,
+    "broadcast_pps_warn": 120
+  },
+  "notes": "Edit this to match your own address plan; unknown segments are still analysed with defaults."
+}

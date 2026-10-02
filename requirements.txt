@@ -1,0 +1,6 @@
+# Core analyser has no third-party runtime dependencies (stdlib only).
+# The optional live dashboard needs Flask:
+flask>=2.3
+
+# Development / tests:
+# pip install pytest flask
